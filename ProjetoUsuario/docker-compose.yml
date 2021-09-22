@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Qu@dr@d0"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+  book-app:
+    build: .
+    environment:
+      DatabaseServer: "mssql-server"
+      DatabasePort: "1433"
+      DatabaseUser: "SA"
+      DatabasePassword: "Qu@dr@d0"
+      DatabaseName: "dbUser"
+    ports: 
+      - "8090:80"
