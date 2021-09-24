@@ -10,8 +10,8 @@ using ProjetoUsuario.Data;
 namespace ProjetoUsuario.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20210921232833_Initial migration")]
-    partial class Initialmigration
+    [Migration("20210924001128_User")]
+    partial class User
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

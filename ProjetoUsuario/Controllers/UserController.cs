@@ -7,6 +7,8 @@ using ProjetoUsuario.Models;
 
 namespace ProjetoUsuario.Controllers
 {
+    [Route("api/UserController")]
+    [ApiController]
     public class UserController : Controller
     {
         private readonly UserDbContext _context;
@@ -23,13 +25,14 @@ namespace ProjetoUsuario.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create([FromBody]User user)
         {
             // validate that our model meets the requirement
             if (ModelState.IsValid)
@@ -57,7 +60,7 @@ namespace ProjetoUsuario.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(User user)
+        public async Task<IActionResult> Update([FromBody] User user)
         {
              if (ModelState.IsValid)
             {
@@ -83,7 +86,7 @@ namespace ProjetoUsuario.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(User user)
+        public async Task<IActionResult> Delete([FromBody]User user)
         {
             if (ModelState.IsValid)
             {
