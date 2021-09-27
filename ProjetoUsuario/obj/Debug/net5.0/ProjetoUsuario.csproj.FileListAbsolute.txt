@@ -70,3 +70,4 @@
 /home/joao/ProjetoUser/ProjetoUsuario/obj/Debug/net5.0/ref/ProjetoUsuario.dll
 /home/joao/ProjetoUser/ProjetoUsuario/obj/Debug/net5.0/ProjetoUsuario.pdb
 /home/joao/ProjetoUser/ProjetoUsuario/obj/Debug/net5.0/ProjetoUsuario.genruntimeconfig.cache
+/home/joao/ProjetoUser/ProjetoUsuario/obj/Debug/net5.0/Razor/Views/Shared/Create.cshtml.g.cs

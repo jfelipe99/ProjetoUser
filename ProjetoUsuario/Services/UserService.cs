@@ -7,7 +7,7 @@ using ProjetoUsuario.Models;
 
 namespace ProjetoUsuario.Services
 {
-    public class UserService : GenericServices
+    public class UserService : GenericServices, IUserServices
     {
         public UserService(UserDbContext context,IMemoryCache memoryCache)
         : base(context, memoryCache) {
@@ -28,6 +28,49 @@ namespace ProjetoUsuario.Services
 
                 if(userRequest == null)
                 {
+                    bool cpfIsValid = IsCpf(user.CPF);
+                    if(cpfIsValid == false)
+                        new Exception("CPF Invalido");
+                    if (!(Regex.Match(user.Telefone, @"^(\+[0-9])$").Success))
+                        new Exception("");
+                    
+                    var userInsertRequest = new User {
+                        CPF = user.CPF,
+                        Nome = user.Nome,
+                        Telefone = user.Telefone,
+                        Email = user.Email,
+                        Sexo = user.Sexo,
+                        DataNascimento = user.DataNascimento
+                    };
+
+                    var result =_context.Users.Add(userInsertRequest);
+                    _context.SaveChanges();
+
+                    return userInsertRequest.Id;
+                }
+            }catch(Exception ex)
+            {
+                return 0;
+            }
+
+            return user.Id;
+
+        }
+
+        public bool Update(User user)
+        {
+            try{
+
+                var userRequest = _context.Users
+                    .Where(a => a.CPF == user.CPF)
+                    .Select(x => new
+                    {
+                        Id = x.Id,
+                    })
+                    .FirstOrDefault();
+
+                if(userRequest != null)
+                {
                     //Valida CPF
                     bool cpfIsValid = IsCpf(user.CPF);
                     if(cpfIsValid == false)
@@ -36,15 +79,55 @@ namespace ProjetoUsuario.Services
                     if (!(Regex.Match(user.Telefone, @"^(\+[0-9])$").Success))
                         new Exception("");
                     
-                    _context.Users.Add(user);
+                    var userUpdateRequest = new User {
+                        CPF = user.CPF,
+                        Nome = user.Nome,
+                        Telefone = user.Telefone,
+                        Email = user.Email,
+                        Sexo = user.Sexo,
+                        DataNascimento = user.DataNascimento
+                    };
+
+                    _context.Users.Update(userUpdateRequest);
+                    _context.SaveChanges();
+                    return true;
+                }
+                else {
+                    return false;
                 }
             }catch(Exception ex)
             {
-                
+                return false;
             }
+        }
 
-            return user.Id;
+        public bool Delete(User user)
+        {
+            var userRequest = _context.Users
+                    .Where(a => a.CPF == user.CPF)
+                    .Select(x => new
+                    {
+                        Id = x.Id,
+                    })
+                    .FirstOrDefault();
 
+                if(userRequest != null)
+                {
+                    var userDeleteRequest = new User {
+                        CPF = user.CPF,
+                        Nome = user.Nome,
+                        Telefone = user.Telefone,
+                        Email = user.Email,
+                        Sexo = user.Sexo,
+                        DataNascimento = user.DataNascimento
+                    };
+
+                    _context.Users.Remove(userDeleteRequest);
+                    _context.SaveChanges();
+                    return true;
+                }else {
+                    return false;
+                }
         }
 
         private static bool IsCpf(string cpf)

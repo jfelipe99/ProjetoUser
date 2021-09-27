@@ -36,6 +36,7 @@ namespace ProjetoUsuario
             services.AddDbContext<UserDbContext>(options => 
                 options.UseSqlServer($"Server={server}, {port};Initial Catalog={database};User ID={user};Password={password}"));
 
+            services.AddScoped<IUserServices, UserService>();
             services.AddMvc();
         }
 

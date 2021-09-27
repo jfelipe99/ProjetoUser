@@ -5,24 +5,10 @@ POST http://localhost:8090/api/UserController
 Content-Type: application/json
 
 {
-    "Id": 1,
-    "Nome":"João Felipe",
-    "CPF": "46089248851",
+    "Nome":"Mateus",
+    "CPF": "48752698852",
     "Email": "j.felipe99@gmail.com",
     "Telefone": "977790862",
     "Sexo": "Masculino",
     "DataNascimento": "2009-02-15T00:00:00Z"
 }
-
-
-###
-POST http://localhost:3000/accounts
-Content-Type: application/json
-
-{
-    "name": "TESTE2",
-    "subdomain": "tenant2"
-}
-
-###
-GET http://localhost:3000/accounts

@@ -12,10 +12,10 @@ namespace ProjetoUsuario.Controllers
     public class UserController : Controller
     {
         private readonly UserDbContext _context;
-
-        public UserController(UserDbContext context)
+        private IUserServices _userservices;
+        public UserController(IUserServices userServices)
         {
-            _context = context;
+            _userservices = userServices;
         }
 
         public IActionResult Index()
@@ -32,7 +32,7 @@ namespace ProjetoUsuario.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]User user)
+        public int Create([FromBody]User user)
         {
             // validate that our model meets the requirement
             if (ModelState.IsValid)
@@ -40,23 +40,22 @@ namespace ProjetoUsuario.Controllers
                 try
                 {
                     // update the ef core context in memory 
-                    _context.Users.Add(user);
-
-                    // sync the changes of ef code in memory with the database
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction("Index");
+                    var returnvalue = _userservices.Insert(user);
+                    return returnvalue;
+                    // sync the changes of ef code in memory with the database                
                 }
                 catch(Exception ex)
                 {
+                    
                     ModelState.AddModelError(string.Empty, $"Something went wrong {ex.Message}");
+                    return 153;
                 }
-            }
+            }           
 
             ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
-
+            return 3;
             // We return the object back to view
-            return View(user);
+            
         }
 
         [HttpPut]
@@ -67,7 +66,7 @@ namespace ProjetoUsuario.Controllers
                 try
                 {
                     // update the ef core context in memory 
-                    _context.Users.Update(user);
+                    var returnvalue =_userservices.Update(user);
 
                     // sync the changes of ef code in memory with the database
                     await _context.SaveChangesAsync();
@@ -93,7 +92,7 @@ namespace ProjetoUsuario.Controllers
                 try
                 {
                     // update the ef core context in memory 
-                    _context.Users.Remove(user);
+                    var returnvalue =_userservices.Delete(user);
 
                     // sync the changes of ef code in memory with the database
                     await _context.SaveChangesAsync();
