@@ -79,16 +79,15 @@ namespace ProjetoUsuario.Services
                     if (!(Regex.Match(user.Telefone, @"^(\+[0-9])$").Success))
                         new Exception("");
                     
-                    var userUpdateRequest = new User {
-                        CPF = user.CPF,
-                        Nome = user.Nome,
-                        Telefone = user.Telefone,
-                        Email = user.Email,
-                        Sexo = user.Sexo,
-                        DataNascimento = user.DataNascimento
-                    };
-
-                    _context.Users.Update(userUpdateRequest);
+                    var userentity = _context.Users.FirstOrDefault(a => a.Id == userRequest.Id);
+                    if(userentity != null)
+                    {
+                        userentity.Nome = user.Nome;
+                        userentity.Email = user.Email;
+                        userentity.DataNascimento = user.DataNascimento;
+                        userentity.Sexo = user.Sexo;
+                        userentity.Telefone = user.Telefone;
+                    }
                     _context.SaveChanges();
                     return true;
                 }
@@ -113,16 +112,7 @@ namespace ProjetoUsuario.Services
 
                 if(userRequest != null)
                 {
-                    var userDeleteRequest = new User {
-                        CPF = user.CPF,
-                        Nome = user.Nome,
-                        Telefone = user.Telefone,
-                        Email = user.Email,
-                        Sexo = user.Sexo,
-                        DataNascimento = user.DataNascimento
-                    };
-
-                    _context.Users.Remove(userDeleteRequest);
+                    _context.Users.Remove(user);
                     _context.SaveChanges();
                     return true;
                 }else {

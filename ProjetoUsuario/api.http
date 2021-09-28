@@ -5,10 +5,37 @@ POST http://localhost:8090/api/UserController
 Content-Type: application/json
 
 {
-    "Nome":"Mateus",
-    "CPF": "48752698852",
+    "Nome":"Ronaldo",
+    "CPF": "48521089997",
     "Email": "j.felipe99@gmail.com",
     "Telefone": "977790862",
+    "Sexo": "Masculino",
+    "DataNascimento": "2009-02-15T00:00:00Z"
+}
+
+###
+PUT http://localhost:8090/api/UserController
+Content-Type: application/json
+
+{
+    "Nome":"Ronaldo",
+    "CPF": "48569741102",
+    "Email": "ronaldo59@gmail.com",
+    "Telefone": "993386763",
+    "Sexo": "Masculino",
+    "DataNascimento": "2009-02-15T00:00:00Z"
+}
+
+###
+DELETE http://localhost:8090/api/UserController
+Content-Type: application/json
+
+{
+    "Id": 15,
+    "Nome":"Ronaldo",
+    "CPF": "48569741102",
+    "Email": "ronaldo59@gmail.com",
+    "Telefone": "993386763",
     "Sexo": "Masculino",
     "DataNascimento": "2009-02-15T00:00:00Z"
 }

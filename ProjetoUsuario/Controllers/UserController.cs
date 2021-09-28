@@ -32,81 +32,75 @@ namespace ProjetoUsuario.Controllers
         }
 
         [HttpPost]
-        public int Create([FromBody]User user)
+        public ActionResult Create([FromBody]User user)
         {
             // validate that our model meets the requirement
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // update the ef core context in memory 
+
                     var returnvalue = _userservices.Insert(user);
-                    return returnvalue;
-                    // sync the changes of ef code in memory with the database                
+                    return Ok(returnvalue);
+          
                 }
                 catch(Exception ex)
                 {
                     
-                    ModelState.AddModelError(string.Empty, $"Something went wrong {ex.Message}");
-                    return 153;
+                    var error = $"Something went wrong {ex.Message}";
+                    return BadRequest(error);
                 }
-            }           
+            }else{
 
-            ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
-            return 3;
-            // We return the object back to view
-            
+                ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
+                return BadRequest( $"Something went wrong, invalid model");
+            }          
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] User user)
+        public ActionResult Update([FromBody] User user)
         {
              if (ModelState.IsValid)
             {
                 try
                 {
-                    // update the ef core context in memory 
-                    var returnvalue =_userservices.Update(user);
+                     var returnvalue = _userservices.Update(user);
 
-                    // sync the changes of ef code in memory with the database
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction("Index");
+                     return Ok(returnvalue);
                 }
                 catch(Exception ex)
                 {
                     ModelState.AddModelError(string.Empty, $"Something went wrong {ex.Message}");
+                    return BadRequest($"Something went wrong {ex.Message}");
                 }
+            }else {
+                ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
+                    var error = $"Something went wrong, invalid model";
+                    return BadRequest(error);
             }
-            ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
-
-            // We return the object back to view
-            return View(user);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody]User user)
+        public ActionResult Delete([FromBody]User user)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // update the ef core context in memory 
                     var returnvalue =_userservices.Delete(user);
 
-                    // sync the changes of ef code in memory with the database
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction("Index");
+                     return Ok(returnvalue);
                 }
                 catch(Exception ex)
                 {
                     ModelState.AddModelError(string.Empty, $"Something went wrong {ex.Message}");
+                    return BadRequest($"Something went wrong {ex.Message}");
                 }
+            }else {  
+                ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
+                var error = $"Something went wrong, invalid model";
+                return BadRequest(error);
             }
-            ModelState.AddModelError(string.Empty, $"Something went wrong, invalid model");
-            // We return the object back to view
-            return View(user);
         }
     }
 }
